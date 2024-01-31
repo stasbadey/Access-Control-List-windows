@@ -21,3 +21,9 @@ def delete_file(path):
 def set_permission(path, permissions):
     subprocess.run(['icacls', path, '/inheritance:d', '/grant', permissions])
     click.echo(f"Access rights for file '{path}' changed successfully for '{permissions}'!")
+
+
+def check_file_permissions(path):
+    result = subprocess.run(['icacls', path])
+    output = result.stdout
+    click.echo(output)
