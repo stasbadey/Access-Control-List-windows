@@ -48,10 +48,10 @@ def admin_user_operation_command(name, operation):
 
 
 @click.command(name='create_folder')
-@click.argument('path')
 @click.option('--mode', default='RWD', help='''R - read, W - write, D - delete''')
 @click.option('--sid', default='1-0', help='''1-0 - all users, 3-0 - owner, 5-11 - all users(exclude owner), 
                5-32-544 - only admin group, 5-32-545 - only user group''')
+@click.argument('path')
 def create_folder_command(path, mode, sid):
     create_folder(path, mode, sid)
 
