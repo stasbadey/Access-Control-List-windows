@@ -1,5 +1,7 @@
 import os
 import subprocess
+import pathlib
+
 
 import click
 
@@ -18,9 +20,11 @@ def delete_file(path):
         click.echo(f"There is some troubles with delete file '{path}': {str(e)}")
 
 
-def set_permission(path, permissions):
-    subprocess.run(['icacls', path, '/inheritance:d', '/grant', permissions])
-    click.echo(f"Access rights for file '{path}' changed successfully for '{permissions}'!")
+def set_permission(path, mode, sid):
+    path = str(pathlib.Path(f"./{path}").absolute())
+    subprocess.run(['icacls', path, '/inheritance:r'])
+    subprocess.run(['icacls', path, '/grant', f'*S-1-{sid}:{mode}'])
+    click.echo(f"Access rights for file '{path}'!")
 
 
 def check_file_permissions(path):

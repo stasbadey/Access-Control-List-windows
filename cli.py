@@ -67,14 +67,16 @@ def check_permission_command(path):
 @click.option('--operation', type=click.Choice(['create', 'delete', 'set-permission', 'check-permission'], case_sensitive=False), required=True)
 @click.argument('path')
 @click.option('--content', help='File content (only for "create" operation')
-@click.option('--permissions', help='Access rights (only for "set-permission" operation')
-def file_command(operation, path, content=None, permissions=None):
+@click.option('--mode', default='RWD', help='''R - read, W - write, D - delete''')
+@click.option('--sid', default='1-0', help='''1-0 - all users, 3-0 - owner, 5-11 - all users(exclude owner), 
+               5-32-544 - only admin group, 5-32-545 - only user group''')
+def file_command(operation, path, content=None, mode=None, sid=None):
     if operation == 'create':
         create_file(path, content)
     elif operation == 'delete':
         delete_file(path)
     elif operation == 'set-permission':
-        set_permission(path, permissions)
+        set_permission(path, mode, sid)
     elif operation == 'check-permission':
         check_file_permissions(path)
 
